@@ -68,6 +68,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Build container
-        run: docker build --tag rdfutils:dev .
+        run: docker build --file ./Containerfile --tag rdfutils:dev .
       - name: Test container
         run: docker run --rm -it rdfutils:dev --help
