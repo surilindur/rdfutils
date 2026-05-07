@@ -1,0 +1,4 @@
+@prefix schema: <https://schema.org/> .
+
+<> a schema:WebSite ;
+    schema:name "Example website" .
