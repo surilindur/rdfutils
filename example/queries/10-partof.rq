@@ -1,0 +1,15 @@
+PREFIX schema: <https://schema.org/>
+
+INSERT {
+    ?document schema:isPartOf ?website .
+} WHERE {
+    ?document ?p ?o .
+
+    FILTER(ISIRI(?document) && !CONTAINS(STR(?document), "#"))
+
+    BIND(URI(REPLACE(STR(?document), "^([a-z]+://.+/).*", "$1")) AS ?website)
+
+    FILTER EXISTS {
+        ?website a schema:WebSite .
+    }
+}
