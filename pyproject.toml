@@ -1,0 +1,16 @@
+[project]
+name = "rdfutils"
+version = "0.1.0"
+description = "Simple utility scripts processing RDF data."
+readme = "README"
+requires-python = ">=3.14"
+dependencies = [
+    "rdflib[orjson]>=7.6.0",
+    "typer>=0.25.1",
+    "typing-extensions>=4.15.0",
+]
+
+[dependency-groups]
+dev = [
+    "pylint>=4.0.5",
+]
