@@ -32,7 +32,7 @@ module = Typer()
 def load_data(root: Path, graph: URIRef) -> Dataset:
     """Load all data from files in the specified path."""
 
-    dataset = Dataset()
+    dataset = Dataset(default_union=True)
     dataset_graph = dataset.graph(identifier=graph)
 
     for file_path in iterate_files(root=root, extensions=RDF_EXTENSIONS):
