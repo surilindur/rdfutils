@@ -59,4 +59,4 @@ jobs:
       - name: Test compile script for JSON-LD
         run: |
           uv run src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.jsonld
-          grep -q '"https://schema.org/hasPart": [' ./dist/data.jsonld
+          grep -q '"https://schema.org/hasPart": \[' ./dist/data.jsonld
