@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      - name: Install Python
+        run: uv python install
+      - name: Install project dependencies
+        run: uv sync --locked
+      - name: Run linter
+        run: uv run pylint .
+  test-compile:
+    name: Test compile
+    needs: lint
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      - name: Install Python
+        run: uv python install
+      - name: Install project dependencies
+        run: uv sync --no-dev --locked
+      - name: Test compile script for Turtle
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.ttl
+          grep -q ' schema:isPartOf <http://localhost/> ;' ./dist/data.ttl
+      - name: Test compile script for N3
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.n3
+          grep -q ' schema:isPartOf <http://localhost/> ;' ./dist/data.n3
+      - name: Test compile script for N-Triples
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.nt
+          grep -q '<http://localhost/> <https://schema.org/hasPart> <http://localhost/test> .' ./dist/data.nt
+      - name: Test compile script for N-Quads
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.nq
+          grep -q '<http://localhost/> <https://schema.org/hasPart> <http://localhost/test> <http://localhost/> .' ./dist/data.nq
+      - name: Test compile script for RDF+XML
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.rdf
+          grep -q '<schema:title>Example document</schema:title>' ./dist/data.rdf
+      - name: Test compile script for JSON-LD
+        run: |
+          python src/cli.py compile --graph http://localhost/ --data ./example/data --queries ./example/queries --output ./dist/data.jsonld
+          grep -q '"https://schema.org/hasPart": [' ./dist/data.jsonld
