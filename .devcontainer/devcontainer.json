@@ -1,0 +1,27 @@
+{
+  "name": "Alpine Linux Python 3",
+  "build": {
+    "dockerfile": "./Dockerfile"
+  },
+  "postStartCommand": "uv python install && uv sync",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-containers",
+        "ms-python.black-formatter",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "rdfox.rdfox-rdf",
+        "samuelcolvin.jinjahtml"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+          80
+        ],
+        "python.analysis.typeCheckingMode": "strict"
+      }
+    }
+  }
+}

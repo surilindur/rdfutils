@@ -1,0 +1,27 @@
+RDF Utils
+=========
+
+Simple utility scripts processing RDF data, to remove the need for copying
+code across multiple projects. This is not meant for real use.
+
+Dependencies
+------------
+
+* Python: https://www.python.org/
+* RDFLib: https://github.com/RDFLib/rdflib
+
+Development setup
+-----------------
+
+The repository contains a Visual Studio Code Dev Containers definition,
+that should contain everything necessary for developing the application.
+
+Issues
+------
+
+Please feel free to report any issues on the GitHub issue tracker.
+
+License
+-------
+
+This code is copyrighted and released under the AGPL-3.0 license.
